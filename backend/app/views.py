@@ -3,4 +3,4 @@ from app import app  # , db
 
 @app.route("/")
 def hello():
-    return "Hello World"
+    return "Hello from Flask!"
