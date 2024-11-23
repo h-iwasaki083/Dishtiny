@@ -1,0 +1,28 @@
+# Backend
+## 仮想環境
+venv/
+## Pythonキャッシュファイル
+__pycache__/
+*.pyc
+*.pyo
+
+# Frontend
+## ビルドファイル
+build/
+## 依存関係
+node_modules/
+
+# Environments
+env/
+*.env
+# config.py
+
+# IDE
+## Visual Studio Code
+.vscode/
+# PyCharm
+.idea/
+
+# Others
+## MacOSのシステムファイル
+*.DS_Store
