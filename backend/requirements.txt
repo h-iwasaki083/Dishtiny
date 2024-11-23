@@ -1,0 +1,14 @@
+# flask
+Flask
+Flask-SQLAlchemy
+Flask-Cors
+Flask-Migrate
+
+# formatter
+black
+flake8
+isort
+
+# swaggerUI
+Flasgger
+flask-swagger-ui
