@@ -1,3 +1,8 @@
+## リポジトリのクローン
+```bash:クローン
+git clone https://github.com/h-iwasaki083/Dishtiny.git
+```
+
 mainブランチのコードをクローンした後、以下の要領で環境構築と動作確認をよろしくお願いします。
 
 ## バックエンド
