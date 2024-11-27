@@ -1,4 +1,5 @@
 // import React from 'react';
+import { Button } from '../components/ui/button';
 import { useState, useEffect } from 'react';
 
 const ExamplePage = () => {
@@ -13,6 +14,7 @@ const ExamplePage = () => {
     <div>
       <h1>Example Page</h1>
       <p>{message}</p>
+      <Button>ボタン</Button>
     </div>
   );
 }
