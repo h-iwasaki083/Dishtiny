@@ -12,7 +12,7 @@ type Store = {
 const useStore = create<Store>((set) => ({
   number: 3,
   setNumber: (newNumber) => set({ number: newNumber }),  // numberを更新する関数
-  ingredients: ['flour', 'sugar', 'eggs'],
+  ingredients: ['にんじん', 'はくさい', 'eggs'],
   setIngredients: (newIngredients) => set({ ingredients: newIngredients }),
 }));
 

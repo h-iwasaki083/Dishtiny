@@ -2,7 +2,8 @@ import os
 
 from dotenv import load_dotenv
 from flask import jsonify, request
-from openai import OpenAI
+
+# from openai import OpenAI
 
 from app import app  # , db
 
@@ -14,7 +15,7 @@ def hello():
     return "Hello from Flask!"
 
 
-@app.route("/database", methods=["GET"])
+@app.route("/database", methods=["POST"])
 def product():
 
     # ダミーデータ
@@ -25,24 +26,28 @@ def product():
 
     # リストでもrequest.get_json()で行けるらしい
     data = request.get_json()
+    print(data)  # フロントからデータ受け渡し〇
     products = User.find_related_products(data)
+    print(products)  # から
 
     # 結果を表示 (ここで productname 属性を表示)
     # 一致したデータの、データベースを参照
     product_list = [user.productname for user in products]
     price_list = [user.money for user in products]
+    # print(product_list)  # から
 
     # answer =  ', '.join(product_list)  # 商品名のリストをカンマ区切りで返す
     # price =  ', '.join(price_list)  # 商品名のリストをカンマ区切りで返す
 
     answer = ", ".join(product_list).split(", ")  # 商品名のリストをカンマ区切りで返す
     price = ", ".join(price_list).split(", ")  # 商品名のリストをカンマ区切りで返す
+    # print(answer)  # から
 
     response = [
-        {"name": product_name, "price": int(product_price)}
+        {"name": product_name, "price": product_price}
         for product_name, product_price in zip(answer, price)
     ]
-
+    # print(response)
     # response = [
     #     {"name": product_name, "price": price_list} for product_name in answer.split(', ')
     # ]

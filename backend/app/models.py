@@ -27,7 +27,7 @@ class User(db.Model):
         """
         レシピから、店にもその材料があるかを返す
         """
-        # print(productname_value)
+        # print(productname_value)　# フロントからのデータ〇
 
         # print(db.session.query(User.productname).first())
 

@@ -9,7 +9,7 @@ const InfoPage = () => {
   // 非同期処理を行う関数
   const sendIngredients = async () => {
     // ingredientsに格納されているデータをバックエンドに送信
-    const response = await fetch('http://localhost:5000/info', {
+    const response = await fetch('http://localhost:5000/database', {
       method: 'POST',  // HTTPメソッドをPOSTに指定
       headers: {
         'Content-Type': 'application/json',  // JSON形式で送信
