@@ -1,6 +1,7 @@
-// import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { useEffect } from 'react';
 import useStore from '@/zustand/Store';
+// import { useNavigate } from 'react-router-dom'; 
 
 const InfoPage = () => {
   // const [data, setData] = useState([]);
@@ -13,9 +14,21 @@ const InfoPage = () => {
         setIngredients(data);  // バックエンドから受け取ったデータでingredientsを更新
       });
   }, [setIngredients]);
+  
+  const homeButton = () => {
+    window.location.href = '/';
+  };
+
+  // const navigate = useNavigate();
+
+  // const backButton = () => {
+  //   navigate('/example');
+  // };
+
 
   return (
     <div>
+      <Button onClick={homeButton}>Home</Button>
       <h1>Example Page</h1>
         <p>{ingredients[1]?.name}</p>
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
@@ -34,6 +47,8 @@ const InfoPage = () => {
           ))}
         </tbody>
       </table>
+    {/* <Button onClick={backButton}>レシピに戻る</Button> */}
+    {/* 上手く行かないので後回しにします…。 */}
     </div>
   );
 }
