@@ -3,6 +3,7 @@ Flask
 Flask-SQLAlchemy
 Flask-Cors
 Flask-Migrate
+Flask-Admin
 
 # formatter
 black
