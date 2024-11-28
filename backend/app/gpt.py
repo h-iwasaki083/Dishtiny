@@ -4,19 +4,19 @@ import openai
 from dotenv import load_dotenv
 
 # OpenAIのAPIキーを設定
-load_dotenv('key.env')
-openai.api_key = os.getenv('OPENAI_API_KEY')
+load_dotenv("key.env")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # APIキーのテスト
 try:
     # モデルを使ってテストリクエストを送信
     response = openai.ChatCompletion.create(
         model="gpt-4",  # 使用したいモデル名を指定
-        messages=[{"role": "user", "content": "こんにちは"}]  # 入力メッセージ
+        messages=[{"role": "user", "content": "こんにちは"}],  # 入力メッセージ
     )
-    
+
     print("APIキーは有効です。レスポンス:")
-    print(response['choices'][0]['message']['content'])
+    print(response["choices"][0]["message"]["content"])
 
 # except openai.error.AuthenticationError:
 #     print("APIキーが無効です。正しいキーを使用してください。")

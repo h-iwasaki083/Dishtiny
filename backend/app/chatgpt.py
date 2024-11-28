@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # 環境変数ファイルの読み込み
-#dotenv_path = os.path.join(os.path.dirname(__file__), 'key.env')
-#load_dotenv(dotenv_path)
-load_dotenv('key.env')
+# dotenv_path = os.path.join(os.path.dirname(__file__), 'key.env')
+# load_dotenv(dotenv_path)
+load_dotenv("key.env")
 
 # APIキーの確認
 
-api_key = os.getenv('OPENAI_API_KEY')
+api_key = os.getenv("OPENAI_API_KEY")
 
 # APIキーが空の場合のエラーチェック
 if not api_key:
@@ -18,6 +18,7 @@ if not api_key:
 
 # クライアントの作成
 client = OpenAI(api_key=api_key)
+
 
 def gpt(content):
     # プロンプトを設定
@@ -35,6 +36,7 @@ def gpt(content):
 
     # レスポンスからメッセージ内容を取得
     return response.choices[0].message.content
+
 
 # 関数を実行
 result = gpt("1日分の朝昼夕食の献立を提案してください。")
