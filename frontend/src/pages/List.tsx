@@ -13,7 +13,7 @@ import {
 import { Link } from "react-router";
 
 const ListPage = () => {
-  const { ingredients } = useStore(); // ingredientsはバックエンドに送るデータ
+  const { ingredients, setIngredients } = useStore(); // ingredientsはバックエンドに送るデータ
   const [receivedData, setReceivedData] = useState<any[]>([]); // 受け取ったデータを格納するための状態
 
   // 非同期処理を行う関数
@@ -37,6 +37,7 @@ const ListPage = () => {
 
   const data = [
     {
+      id: 1,
       name: "カレーライス",
       ingredient: ["にんじん", "たまねぎ"],
       procedure: {
@@ -46,6 +47,7 @@ const ListPage = () => {
       },
     },
     {
+      id: 2,
       name: "オムライス",
       ingredient: ["たまご", "ごはん"],
       procedure: {
@@ -54,6 +56,12 @@ const ListPage = () => {
       },
     },
   ];
+
+  const setVariable = (id: number) => {
+    const a = data.find((recipe) => recipe.id === id);
+    if (!a) return;
+    setIngredients(a.ingredient);
+  };
 
   // 初回レンダリング時に送信する
   // useEffect(() => {
@@ -100,7 +108,11 @@ const ListPage = () => {
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button variant={"outline"} asChild>
+                  <Button
+                    variant={"outline"}
+                    onClick={() => setVariable(recipe.id)}
+                    asChild
+                  >
                     <Link to={"/info"}>値段を調べる</Link>
                   </Button>
                 </DialogFooter>
