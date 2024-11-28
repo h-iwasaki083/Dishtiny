@@ -17,6 +17,7 @@ node_modules/
 # Environments
 env/
 *.env
+dishtiny/
 # config.py
 
 # IDE
