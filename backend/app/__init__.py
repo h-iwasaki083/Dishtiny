@@ -128,7 +128,7 @@ def product():
           {"name":answer[0].encode('utf-8'), "price":100},
           {"name":answer[1].encode('utf-8'), "price":100},
         ]
-  
+    
     # 日本語を返すために、レスポンスのエンコーディングを明示的に指定
     return Response(
         response=json.dumps(response), 
