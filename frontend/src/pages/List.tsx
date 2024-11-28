@@ -1,9 +1,8 @@
-// import React from 'react';
-import { Button } from '../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 
 const ExamplePage = () => {
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
     useEffect(() => {
       fetch('http://localhost:5000/')
         .then((res) => res.text())
@@ -13,7 +12,7 @@ const ExamplePage = () => {
   return (
     <div>
       <h1>Example Page</h1>
-      <p>{message}</p>
+        <p>{message}</p>
       <Button>ボタン</Button>
     </div>
   );
