@@ -12,9 +12,19 @@ import {
 } from "@/components/ui/dialog";
 import { Link } from "react-router";
 
+import { useLocation } from "react-router";
+
+interface State {
+  test: string;
+}
+
 const ListPage = () => {
   const { ingredients, setIngredients } = useStore(); // ingredientsはバックエンドに送るデータ
   const [receivedData, setReceivedData] = useState<any[]>([]); // 受け取ったデータを格納するための状態
+
+  const location = useLocation();
+  const { test } = location.state as State;
+  // console.log(test);
 
   // 非同期処理を行う関数
   const sendIngredients = async () => {
