@@ -2,15 +2,16 @@
 Flaskアプリケーションを作成し、設定や拡張機能を初期化の役割、アプリケーションの構成や設定に関するものが中心
 DB接続の初期化、ブループリントの登録、その他のFlask拡張のセットアップなど
 """
-import os
-from flask import Flask, jsonify, Response, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin
-from flask_migrate import Migrate
-from flask_cors import CORS
-from flask_admin.contrib.sqla import ModelView
-from dotenv import load_dotenv
 import json
+import os
+
+from dotenv import load_dotenv
+from flask import Flask, Response, jsonify, request
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_cors import CORS
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 # import os
 
@@ -115,7 +116,7 @@ admin = Admin(app, name='商品名入力 Admin Panel', template_mode='bootstrap3
 #             pass
 #         return super(ProductModelView, self).on_model_change(form, model, is_created)
 
-from .models import User, ProductModelView
+from .models import ProductModelView, User
 
 # Userモデルを管理画面に追加
 admin.add_view(ProductModelView(User, db.session))

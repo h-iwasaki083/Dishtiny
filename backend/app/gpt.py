@@ -1,6 +1,7 @@
+import os
+
 import openai
 from dotenv import load_dotenv
-import os
 
 # OpenAIのAPIキーを設定
 load_dotenv('key.env')

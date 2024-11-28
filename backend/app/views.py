@@ -1,9 +1,13 @@
-from app import app  # , db
-from flask import jsonify, request
-from . import User
-from openai import OpenAI
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
+from flask import jsonify, request
+from openai import OpenAI
+
+from app import app  # , db
+
+from . import User
+
 
 @app.route("/")
 def hello():

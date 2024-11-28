@@ -1,6 +1,7 @@
-from openai import OpenAI
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # 環境変数ファイルの読み込み
 #dotenv_path = os.path.join(os.path.dirname(__file__), 'key.env')
