@@ -5,6 +5,8 @@ Flask-Cors
 Flask-Migrate
 Flask-Admin
 
+dotenv
+
 WTForms==3.1.2
 
 # formatter
