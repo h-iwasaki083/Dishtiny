@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Link } from "react-router";
 import { useLocation } from "react-router";
+import Header from "@/components/ui/Header";
 
 interface State {
   test: string;
@@ -70,9 +71,11 @@ const ListPage = () => {
   };
 
   return (
-    <div>
-      <Button onClick={homeButton}>Home</Button>
-      <h1 className=" text-lg">おすすめのレシピ</h1>
+    <div
+      className="min-h-screen flex flex-col justify-start items-center bg-gradient-to-b from-[#FFF8E1] to-[#FFE0B2]"
+    >
+      <Header />
+      <h1 className="text-2xl font-bold text-[#6D4C41] m-4">おすすめのレシピ</h1>
       <ul className="space-y-2">
         {isLoading ? ( // ローディング中かどうかを判定
           <p>データを取得中...</p>
@@ -81,22 +84,27 @@ const ListPage = () => {
             <li key={index}>
               <Dialog>
                 <DialogTrigger>
-                  <div variant={"outline"}>{recipe.name}</div>
+                  {/* カレーのボタン */}
+                  <div 
+                  // variant={"outline"} 
+                  className="border-2 border-[#FFA726] text-[#D84315] hover:bg-[#FFA726] hover:text-white">
+                    {recipe.name}
+                  </div>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-[#FFF3E0]">
                   <DialogHeader>
                     <DialogTitle>{recipe.name}</DialogTitle>
                     <DialogDescription></DialogDescription>
                   </DialogHeader>
                   <div>
                     <h2 className="text-base font-bold">材料</h2>
-                    <ul>
+                    <ul className="list-disc pl-5">
                       {recipe.ingredient.map((ingredient, idx) => (
                         <li key={idx}>{ingredient}</li>
                       ))}
                     </ul>
-                    <h2 className="text-base font-bold pt-1">手順</h2>
-                    <ol>
+                    <h2 className="text-base font-bold pt-3">手順</h2>
+                    <ol className="list-decimal pl-5">
                       {Object.entries(recipe.procedure).map(([step, desc]) => (
                         <li key={step}>
                           <strong>{step}</strong>: {desc}
@@ -106,6 +114,7 @@ const ListPage = () => {
                   </div>
                   <DialogFooter>
                     <Button
+                      className="bg-[#A5D6A7] hover:bg-[#66BB6A] text-[#2E7D32] rounded-md px-4 py-2"
                       variant={"outline"}
                       onClick={() => setVariable(recipe.id)}
                       asChild
@@ -121,6 +130,13 @@ const ListPage = () => {
           <p>レシピが見つかりませんでした。</p>
         )}
       </ul>
+
+      <Button
+        className="mt-6 bg-[#FF7043] hover:bg-[#E64A19] text-white font-bold px-6 py-3 rounded-md shadow-lg transition duration-200"
+        onClick={() => (window.location.href = "/")}
+      >
+        ホームに戻る
+      </Button>
     </div>
   );
 
