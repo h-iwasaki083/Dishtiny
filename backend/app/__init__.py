@@ -4,7 +4,12 @@ DB接続の初期化、ブループリントの登録、その他のFlask拡張�
 """
 
 import json
+
+import json
 import os
+
+from dotenv import load_dotenv
+from flask import Flask, Response, jsonify, request
 
 from dotenv import load_dotenv
 from flask import Flask, Response, jsonify, request
@@ -23,6 +28,7 @@ app.json.ensure_ascii = False
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"  # データベース
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 # app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 # シークレットキーの読み込み
@@ -90,6 +96,16 @@ db = SQLAlchemy(app)
 # Flask-Adminの管理画面を設定
 admin = Admin(app, name="商品名入力 Admin Panel", template_mode="bootstrap3")
 
+@app.route("/admin/check")
+def check_admin_db():
+    tables = {}
+    for model in db.Model.__subclasses__():
+        records = model.query.all()
+        tables[model.__tablename__] = {
+            "count": len(records),
+            "data": [record.__dict__ for record in records],
+        }
+    return jsonify(tables)
 # チェックのために作成
 # @app.route('/admin/check')
 # def check_admin_db():
@@ -122,12 +138,38 @@ from .models import ProductModelView, User
 admin.add_view(ProductModelView(User, db.session))
 
 
+
 # ルートの設定
+@app.route("/")
 @app.route("/")
 def index():
     return "Welcome to the Admin Panel!"
 
+    return "Welcome to the Admin Panel!"
 
+
+# 商品の文字列が返ってくるかテスト
+@app.route("/admin/product")
+def product():
+
+    products = User.find_related_products(productname_value)
+
+    # 結果を表示 (ここで productname 属性を表示)
+    product_list = [user.productname for user in products]
+
+    answer = ", ".join(product_list)  # 商品名のリストをカンマ区切りで返す
+
+    response = [
+        {"name": answer[0].encode("utf-8"), "price": 100},
+        {"name": answer[1].encode("utf-8"), "price": 100},
+    ]
+
+    # 日本語を返すために、レスポンスのエンコーディングを明示的に指定
+    return Response(
+        response=json.dumps(response),
+        status=200,
+        mimetype="application/json; charset=utf-8",
+    )
 # 商品の文字列が返ってくるかテスト
 # @app.route('/admin/product')
 # def product():
@@ -159,6 +201,8 @@ def index():
 #     # 日本語を返すために、レスポンスのエンコーディングを明示的に指定
 #     return jsonify(response)
 
+
 # アプリケーションを実行
+if __name__ == "__main__":
 if __name__ == "__main__":
     app.run(debug=True)

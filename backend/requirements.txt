@@ -9,6 +9,9 @@ dotenv
 
 WTForms==3.1.2
 
+# chatGPT
+openai
+
 # formatter
 black
 flake8
