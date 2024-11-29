@@ -31,6 +31,7 @@ try:
         messages=[{"role": "user", 
                    "content": (
                        f"次の食材を使った簡単なレシピをいくつか提案し,以下のjson形式で出力してください。\n"
+                       f"余計な説明は不要で指定した形式だけで出力してください。\n"
                        f"食材: {ingredient_text}\n"
                         "{\n"
                     "  \"id\": 1,\n"
