@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router";
 
 import { useLocation } from "react-router";
+import Header from "@/components/ui/Header";
 
 interface State {
   test: string;
@@ -83,34 +84,92 @@ const ListPage = () => {
   };
 
   return (
-    <div>
-      <Button onClick={homeButton}>Home</Button>
+    <div
+      className="min-h-screen flex flex-col justify-start items-center bg-gradient-to-b from-[#FFF8E1] to-[#FFE0B2]"
+    >
+      <Header />
+      {/* 従来コード */}
+      {/* <div>
+        <Button onClick={homeButton}>Home</Button>
 
-      <h1 className=" text-lg">おすすめのレシピ</h1>
-      <ul className="space-y-2">
-        {data.map((recipe, index) => (
-          <li key={index}>
+        <h1 className=" text-lg">おすすめのレシピ</h1>
+        <ul className="space-y-2">
+          {data.map((recipe, index) => (
+            <li key={index}>
+              <Dialog>
+                <DialogTrigger>
+                  <Button variant={"outline"}>{recipe.name}</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{recipe.name}</DialogTitle>
+                    <DialogDescription>
+                      <h2 className="text-base font-bold">材料</h2>
+                      <ul>
+                        {recipe.ingredient.map((ingredient, index) => (
+                          <li key={index}>{ingredient}</li>
+                        ))}
+                      </ul>
+                      <h2 className="text-base font-bold pt-1">手順</h2>
+                      <ol> */}
+                        {/* ナンバリング */}
+                        {/* {Object.entries(recipe.procedure).map(
+                          ([step, description]) => (
+                            <li key={step}>
+                              <strong>{step}</strong>: {description}
+                            </li>
+                          )
+                        )}
+                      </ol>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button
+                      variant={"outline"}
+                      onClick={() => setVariable(recipe.id)}
+                      asChild
+                    >
+                      <Link to={"/info"}>値段を調べる</Link>
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </li>
+          ))}
+        </ul>
+      </div> */}
+      
+      {/**gpt */}
+      {/*gpt */}
+      <h1 className="text-2xl font-bold text-[#6D4C41] m-4">
+        おすすめのレシピ
+      </h1>
+
+      <ul className="space-y-4">
+        {data.map((recipe) => (
+          <li key={recipe.id}>
             <Dialog>
-              <DialogTrigger>
-                <Button variant={"outline"}>{recipe.name}</Button>
+              <DialogTrigger asChild>
+                <Button className="w-full py-3 bg-[#FFCC80] hover:bg-[#FFA726] text-[#D84315] font-bold rounded-md shadow-md transition duration-200">
+                  {recipe.name}
+                </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="bg-[#FFF3E0]">
                 <DialogHeader>
                   <DialogTitle>{recipe.name}</DialogTitle>
                   <DialogDescription>
                     <h2 className="text-base font-bold">材料</h2>
-                    <ul>
+                    <ul className="list-disc pl-5">
                       {recipe.ingredient.map((ingredient, index) => (
                         <li key={index}>{ingredient}</li>
                       ))}
                     </ul>
-                    <h2 className="text-base font-bold pt-1">手順</h2>
-                    <ol>
-                      {/* ナンバリング */}
+                    <h2 className="text-base font-bold pt-3">手順</h2>
+                    <ol className="list-decimal pl-5">
                       {Object.entries(recipe.procedure).map(
                         ([step, description]) => (
                           <li key={step}>
-                            <strong>{step}</strong>: {description}
+                            <strong>{step}:</strong> {description}
                           </li>
                         )
                       )}
@@ -119,11 +178,10 @@ const ListPage = () => {
                 </DialogHeader>
                 <DialogFooter>
                   <Button
-                    variant={"outline"}
-                    onClick={() => setVariable(recipe.id)}
+                    className="bg-[#A5D6A7] hover:bg-[#66BB6A] text-[#2E7D32] rounded-md px-4 py-2"
                     asChild
                   >
-                    <Link to={"/info"}>値段を調べる</Link>
+                    <Link to="/info">値段を調べる</Link>
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -131,6 +189,14 @@ const ListPage = () => {
           </li>
         ))}
       </ul>
+
+      <Button
+        className="mt-6 bg-[#FF7043] hover:bg-[#E64A19] text-white font-bold px-6 py-3 rounded-md shadow-lg transition duration-200"
+        onClick={() => (window.location.href = "/")}
+      >
+        ホームに戻る
+      </Button>
+      
     </div>
   );
 };
