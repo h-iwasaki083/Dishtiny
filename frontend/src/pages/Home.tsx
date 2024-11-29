@@ -7,8 +7,8 @@ const HomePage = () => {
   const [inputValue, setInputValue] = useState({ a: "", i: "", u: "" });
 
   return (
-    <div>
-      <h1>食べ物を入力してください</h1>
+    <div className="container mx-auto px-4 max-w-screen-sm">
+      <h1 className="text-lg font-bold">食べ物を入力してください</h1>
       <Input
         className="my-2"
         value={inputValue.a}
