@@ -28,9 +28,26 @@ try:
     # モデルに対してテストリクエストを送信
     response = openai.chat.completions.create(
         model="gpt-3.5-turbo",  # GPT-4を指定
-        messages=[{"role": "user", "content": f"次の食材を使った簡単なレシピを提案してください:{ingredient_text}"}]
+        messages=[{"role": "user", 
+                   "content": (
+                       f"次の食材を使った簡単なレシピをいくつか提案し,以下のjson形式で出力してください。\n"
+                       f"食材: {ingredient_text}\n"
+                        "{\n"
+                    "  \"id\": 1,\n"
+                    "  \"name\": \"\",\n"
+                    "  \"ingredient\": [],\n"
+                    "  \"procedure\": {\n"
+                    "    1: \"\",\n"
+                    "    2: \"\",\n"
+                    "    3: \"\"\n"
+                    "  }\n"
+                    "}"
+                   )
+                       }
+                       ]
     )
-    print("APIキーは有効です。レスポンス:")
+    
+    # print("APIキーは有効です。レスポンス:")
     print(response.choices[0].message.content)
 
 # except openai.AuthenticationError:
