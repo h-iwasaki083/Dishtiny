@@ -29,6 +29,7 @@ def openai():
                     "  \"id\": 1,\n"
                     "  \"name\": \"\",\n"
                     "  \"ingredient\": [],\n"
+                    "  \"ingredient_kana\": [],\n"
                     "  \"procedure\": {\n"
                     "    1: \"\",\n"
                     "    2: \"\",\n"
