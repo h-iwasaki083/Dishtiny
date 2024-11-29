@@ -1,20 +1,28 @@
-from app import app  # , db
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import os
 
+# 既存の環境変数をクリア
+#os.environ.pop('OPENAI_API_KEY', None)
+# OpenAIのAPIキーを設定
+load_dotenv('key.env')
+openai_api_key = os.getenv('OPENAI_API_KEY')
+# api_key = os.getenv('OPENAI_API_KEY')
 
-@app.route("/")
-def hello():
-    return "Hello from Flask!"
+# APIキーが取得できているか確認
+if openai_api_key:
+    print("APIキー取得成功:", openai_api_key)
+    # openai.api_key = openai_api_key
+else:
+    print("APIキーが取得できません。key.envファイルを確認してください。")
+    exit()  # APIキーがない場合は終了
 
-app.route("/cahtgpt")
-def openai():
-    # OpenAIのAPIキーを設定
-    load_dotenv('key.env')
-    openai_api_key = os.getenv('OPENAI_API_KEY')
-    # 食材のリストダミー
-    ingredients = ["卵", "玉ねぎ", "トマト", "鶏肉"]
+# 食材のリストダミー
+ingredients = ["卵", "玉ねぎ", "トマト", "鶏肉"]
+
+# APIキーのテスト
+try:
+
     # 食材リストをテキスト化
     ingredient_text = ", ".join(ingredients)
     # モデルに対してテストリクエストを送信
@@ -42,6 +50,9 @@ def openai():
     )
     
     # print("APIキーは有効です。レスポンス:")
-    text = response.choices[0].message.content
-    print(text)
-    return text
+    print(response.choices[0].message.content)
+
+# except openai.AuthenticationError:
+#     print("APIキーが無効です。正しいキーを使用してください。")
+except Exception as e:
+    print(f"エラーが発生しました: {e}")
