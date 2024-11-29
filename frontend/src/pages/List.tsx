@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Link } from "react-router";
-
 import { useLocation } from "react-router";
 
 interface State {
@@ -24,59 +23,47 @@ const ListPage = () => {
 
   const location = useLocation();
   const { test } = location.state as State;
-  // console.log(test);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // 非同期処理を行う関数
   const sendIngredients = async () => {
-    // ingredientsに格納されているデータをバックエンドに送信
-    const response = await fetch("http://localhost:5000/list", {
-      method: "POST", // HTTPメソッドをPOSTに指定
-      headers: {
-        "Content-Type": "application/json", // JSON形式で送信
-      },
-      body: JSON.stringify({ ingredients }), // ingredientsをJSONとして送信
-    });
+    setIsLoading(true); // ローディングを開始
+    try {
+      const response = await fetch("http://localhost:5000/chatgpt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(test),
+      });
 
-    if (response.ok) {
-      const data = await response.json(); // レスポンスデータをJSON形式で処理
-      setReceivedData(data); // レスポンスデータでreceivedDataを更新
-    } else {
-      console.error("Error sending ingredients");
+      if (response.ok) {
+        const data = await response.json();
+        setReceivedData(data);
+      } else {
+        console.error("Error sending ingredients");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false); // 非同期処理が終わったらローディングを終了
     }
   };
 
-  const data = [
-    {
-      id: 1,
-      name: "カレーライス",
-      ingredient: ["にんじん", "たまねぎ"],
-      procedure: {
-        "1": "切る",
-        "2": "混ぜる",
-        "3": "煮る",
-      },
-    },
-    {
-      id: 2,
-      name: "オムライス",
-      ingredient: ["たまご", "ごはん"],
-      procedure: {
-        "1": "炒める",
-        "2": "包む",
-      },
-    },
-  ];
-
   const setVariable = (id: number) => {
-    const a = data.find((recipe) => recipe.id === id);
-    if (!a) return;
-    setIngredients(a.ingredient);
+    const recipe = receivedData.find((recipe) => recipe.id === id);
+    if (!recipe) return;
+    setIngredients(recipe.ingredient);
   };
 
   // 初回レンダリング時に送信する
-  // useEffect(() => {
-  //   sendIngredients();
-  // }, [ingredients]);  // ingredientsが変更されたらリクエストを送信
+  useEffect(() => {
+    sendIngredients();
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated receivedData:", receivedData);
+  }, [receivedData]);
+  // }, [ingredients]); // ingredientsが変更されたらリクエストを送信
 
   const homeButton = () => {
     window.location.href = "/";
@@ -85,54 +72,120 @@ const ListPage = () => {
   return (
     <div>
       <Button onClick={homeButton}>Home</Button>
-
       <h1 className=" text-lg">おすすめのレシピ</h1>
       <ul className="space-y-2">
-        {data.map((recipe, index) => (
-          <li key={index}>
-            <Dialog>
-              <DialogTrigger>
-                <Button variant={"outline"}>{recipe.name}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{recipe.name}</DialogTitle>
-                  <DialogDescription>
+        {isLoading ? ( // ローディング中かどうかを判定
+          <p>データを取得中...</p>
+        ) : receivedData.length > 0 ? (
+          receivedData.map((recipe, index) => (
+            <li key={index}>
+              <Dialog>
+                <DialogTrigger>
+                  <div variant={"outline"}>{recipe.name}</div>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{recipe.name}</DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <div>
                     <h2 className="text-base font-bold">材料</h2>
                     <ul>
-                      {recipe.ingredient.map((ingredient, index) => (
-                        <li key={index}>{ingredient}</li>
+                      {recipe.ingredient.map((ingredient, idx) => (
+                        <li key={idx}>{ingredient}</li>
                       ))}
                     </ul>
                     <h2 className="text-base font-bold pt-1">手順</h2>
                     <ol>
-                      {/* ナンバリング */}
-                      {Object.entries(recipe.procedure).map(
-                        ([step, description]) => (
-                          <li key={step}>
-                            <strong>{step}</strong>: {description}
-                          </li>
-                        )
-                      )}
+                      {Object.entries(recipe.procedure).map(([step, desc]) => (
+                        <li key={step}>
+                          <strong>{step}</strong>: {desc}
+                        </li>
+                      ))}
                     </ol>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Button
-                    variant={"outline"}
-                    onClick={() => setVariable(recipe.id)}
-                    asChild
-                  >
-                    <Link to={"/info"}>値段を調べる</Link>
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </li>
-        ))}
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant={"outline"}
+                      onClick={() => setVariable(recipe.id)}
+                      asChild
+                    >
+                      <Link to={"/info"}>値段を調べる</Link>
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </li>
+          ))
+        ) : (
+          <p>レシピが見つかりませんでした。</p>
+        )}
       </ul>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <Button onClick={homeButton}>Home</Button>
+
+  //     <h1 className=" text-lg">おすすめのレシピ</h1>
+  //     <ul className="space-y-2">
+  //       <p>{receivedData.length}</p>
+  //       {receivedData.length > 0 ? (
+  //         <>
+  //           <p>{receivedData}</p>
+  //           <p>{typeof receivedData}</p>
+  //           {/* <p>{receivedData[]}</p> */}
+  //         </>
+  //       ) : (
+  // receivedData.map((recipe, index) => (
+  //   <li key={index}>
+  //     <Dialog>
+  //       <DialogTrigger>
+  //         <Button variant={"outline"}>{recipe.name}</Button>
+  //       </DialogTrigger>
+  //       <DialogContent>
+  //         <DialogHeader>
+  //           <DialogTitle>{recipe.name}</DialogTitle>
+  //           <DialogDescription>
+  //             <h2 className="text-base font-bold">材料</h2>
+  //             <ul>
+  //               {/* recipe.ingredient? */}
+  //               {recipe.ingredient.map((ingredient, index) => (
+  //                 <li key={index}>{ingredient}</li>
+  //               ))}
+  //             </ul>
+  //             <h2 className="text-base font-bold pt-1">手順</h2>
+  //             <ol>
+  //               {/* ナンバリング */}
+  //               {Object.entries(recipe.procedure).map(
+  //                 ([step, description]) => (
+  //                   <li key={step}>
+  //                     <strong>{step}</strong>: {description}
+  //                   </li>
+  //                 )
+  //               )}
+  //             </ol>
+  //           </DialogDescription>
+  //         </DialogHeader>
+  //         <DialogFooter>
+  //           <Button
+  //             variant={"outline"}
+  //             onClick={() => setVariable(recipe.id)}
+  //             asChild
+  //           >
+  //             <Link to={"/info"}>値段を調べる</Link>
+  //           </Button>
+  //         </DialogFooter>
+  //       </DialogContent>
+  //     </Dialog>
+  //   </li>
+  // ))
+  <p>データを取得中...</p>;
+  //         )}
+  //       </ul>
+  //     </div>
+  //   );
 };
 
 export default ListPage;
