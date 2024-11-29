@@ -47,6 +47,7 @@ const ListPage = () => {
       console.error("Error:", error);
     } finally {
       setIsLoading(false); // 非同期処理が終わったらローディングを終了
+      console.log("Received data:", receivedData);
     }
   };
 
@@ -61,9 +62,9 @@ const ListPage = () => {
     sendIngredients();
   }, []);
 
-  useEffect(() => {
-    console.log("Updated receivedData:", receivedData);
-  }, [receivedData]);
+  // useEffect(() => {
+  //   console.log("Updated receivedData:", receivedData);
+  // }, [receivedData]);
   // }, [ingredients]); // ingredientsが変更されたらリクエストを送信
 
   const homeButton = () => {
@@ -197,7 +198,7 @@ const ListPage = () => {
   //     </Dialog>
   //   </li>
   // ))
-  <p>データを取得中...</p>;
+  // <p>データを取得中...</p>;
   //         )}
   //       </ul>
   //     </div>
