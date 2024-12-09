@@ -12,14 +12,14 @@ import json
 from app import app  # , db
 
 
-@app.route("/")
-def hello():
-    return "Hello from Flask!"
+# @app.route("/")
+# def hello():
+#     return "Hello from Flask!"
 
 
 @app.route("/chatgpt", methods=["POST"])
 def openai():
-    print("openai")
+    # print("openai")
 
     client = OpenAI()
     # OpenAIのAPIキーを設定
@@ -27,13 +27,13 @@ def openai():
         os.path.abspath(__file__)
     )  # 現在のスクリプトのディレクトリ
     full_path = os.path.join(current_directory, "key.env")
-    print(full_path)
+    # print(full_path)
     load_dotenv(full_path)
     openai_api_key = os.getenv("OPENAI_API_KEY")
     # 食材のリストダミー
-    ingredients = ["卵", "玉ねぎ", "トマト", "鶏肉"]
+    # ingredients = ["卵", "玉ねぎ", "トマト", "鶏肉"]
     ingredients = request.get_json()
-    print(ingredients)
+    # print(ingredients)
 
     # 食材リストをテキスト化
     ingredient_text = ", ".join(ingredients)
@@ -46,18 +46,18 @@ def openai():
                 "content": (
                     f"次の食材を使った簡単なレシピをいくつか提案し,以下のjson形式で出力してください。\n"
                     f"余計な説明は不要で指定した形式だけで出力してください。指定した形式は必ず守ってください\n"
-                    f"食材: {ingredient_text}\n"
-                    "{\n"
-                    '  "id": 1,\n'
-                    '  "name": "",\n'
-                    '  "ingredient": [],\n'
-                    '  "ingredient_hiragana": [],\n'
-                    '  "procedure": {\n'
-                    '    "1": "",\n'
-                    '    "2": "",\n'
-                    '    "3": ""\n'
-                    "  }\n"
-                    "}"
+                    f"食材: {ingredient_text}"
+                    "{"
+                    '  "id": "",'
+                    '  "name": "",'
+                    '  "ingredient": [],'
+                    '  "ingredient_hiragana": [],'
+                    '  "procedure": {'
+                    '    "1": "",'
+                    '    "2": "",'
+                    '    "3": ""'
+                    "  }"
+                    "},"
                 ),
             }
         ],
@@ -65,14 +65,18 @@ def openai():
 
     # print("APIキーは有効です。レスポンス:")
     text = response.choices[0].message.content
+    # print("===")
+    # print(type(text))
+    # print(text)
+    # print("===")
     recipes = {}
     try:
         recipes = json.loads(text)
-        print("===")
-        print(recipes)
-        print("===")
-        print(type(recipes))
-        print("===")
+        # print("===")
+        # print(recipes)
+        # print("===")
+        # print(type(recipes))
+        # print("===")
     except json.JSONDecodeError as e:
         print("JSONのパースに失敗しました:", e)
         print("レスポンス内容:", text)
